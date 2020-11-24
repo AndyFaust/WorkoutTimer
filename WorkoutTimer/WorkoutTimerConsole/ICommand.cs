@@ -4,6 +4,6 @@ namespace WorkoutTimerConsole
 {
     interface ICommand
     {
-        Task RunAsync();
+        void Run();
     }
 }

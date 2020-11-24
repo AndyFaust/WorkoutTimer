@@ -50,6 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BreakCommand.cs" />
     <Compile Include="ExerciseCommand.cs" />
     <Compile Include="ICommand.cs" />
     <Compile Include="ISound.cs" />

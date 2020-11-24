@@ -22,7 +22,12 @@ namespace WorkoutTimerConsole
                 throw new Exception($"Cannot create '{name}' command because there isn't enough time to play the audio.");
         }
 
-        public async Task RunAsync()
+        public void Run()
+        {
+            Task.WaitAll(RunAsync());
+        }
+
+        private async Task RunAsync()
         {
             Console.WriteLine(name);
             _ = startingSound.PlayAsync();

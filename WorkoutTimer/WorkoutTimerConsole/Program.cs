@@ -24,7 +24,7 @@ namespace WorkoutTimerConsole
                 Console.WriteLine("Press any key to start.");
                 Console.ReadKey();
 
-                Task.WaitAll(RunCommands(commands));
+                RunCommands(commands);
 
                 Console.WriteLine("Finished");
             }
@@ -47,29 +47,40 @@ namespace WorkoutTimerConsole
         {
             foreach (var line in File.ReadLines(script.FullName))
             {
-                var items = line.Split(',');
-                if (items.Length != 4)
-                    throw new Exception($"Could not read line: '{line}'");
+                if(string.IsNullOrEmpty(line))
+                    continue;
 
-                var name = items[0].Trim();
-                var timeSeconds = items[1].Trim();
-                var startAudioPath = items[2].Trim();
-                var endAudioPath = items[3].Trim();
+                var items = line.Split(',').Select(n => n.Trim()).ToList();
 
-                yield return new ExerciseCommand(
-                    name,
-                    TimeSpan.FromSeconds(Convert.ToInt32(timeSeconds)),
-                    startAudioPath == "-" ? new NullSound() : (ISound) new NaudioSound(Path.Combine(script.DirectoryName, startAudioPath)),
-                    endAudioPath == "-" ? new NullSound() : (ISound) new NaudioSound(Path.Combine(script.DirectoryName, endAudioPath))
-                );
+                var command = items[0];
+                switch (command.ToLower())
+                {
+                    case "break":
+                        yield return new BreakCommand();
+                        break;
+                    default:
+                        if (items.Count < 2) 
+                            throw new Exception($"Unable to interpret '{line}'.");
+                        yield return new ExerciseCommand(
+                            items[0],
+                            TimeSpan.FromSeconds(Convert.ToInt32(items[1])),
+                            items.Count < 3 || items[2] == "-" || string.IsNullOrWhiteSpace(items[2])
+                                ? new NullSound() 
+                                : (ISound) new NaudioSound(Path.Combine(script.DirectoryName, items[2])),
+                            items.Count < 4 || items[3] == "-" || string.IsNullOrWhiteSpace(items[3])
+                                ? new NullSound() 
+                                : (ISound) new NaudioSound(Path.Combine(script.DirectoryName, items[3]))
+                        );
+                        break;
+                }
             }
         }
 
-        static async Task RunCommands(IEnumerable<ICommand> commands)
+        static void RunCommands(IEnumerable<ICommand> commands)
         {
             foreach(var command in commands)
             {
-                await command.RunAsync();
+                command.Run();
             }
         }
 
