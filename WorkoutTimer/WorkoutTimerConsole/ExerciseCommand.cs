@@ -29,7 +29,6 @@ namespace WorkoutTimerConsole
 
         private async Task RunAsync()
         {
-            Console.WriteLine(name);
             _ = startingSound.PlayAsync();
             _ = PrintTimerAsync(time);
             await Task.Delay(time - endingSound.Duration);
@@ -50,6 +49,11 @@ namespace WorkoutTimerConsole
                 Thread.Sleep(1000);
                 remaining--;
             }
+        }
+
+        public override string ToString()
+        {
+            return $"{name} {time.TotalSeconds}s";
         }
     }
 }

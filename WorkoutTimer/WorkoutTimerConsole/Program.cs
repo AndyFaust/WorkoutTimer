@@ -76,8 +76,12 @@ namespace WorkoutTimerConsole
 
         static void RunCommands(IEnumerable<ICommand> commands)
         {
-            foreach(var command in commands)
+            var commandsList = commands.ToList();
+            for (int i = 0; i < commandsList.Count; i++)
             {
+                var command = commandsList[i];
+                var nextCommand = i < commandsList.Count - 1 ? commandsList[i + 1].ToString() : "End";
+                Console.WriteLine($"{command} [Next: {nextCommand}]");
                 command.Run();
             }
         }

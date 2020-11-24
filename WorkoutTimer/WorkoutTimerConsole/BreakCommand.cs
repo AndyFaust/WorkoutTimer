@@ -6,8 +6,13 @@ namespace WorkoutTimerConsole
     {
         public void Run()
         {
-            Console.WriteLine("Break. Press enter to continue.");
+            Console.WriteLine("Press enter to continue.");
             Console.ReadLine();
+        }
+
+        public override string ToString()
+        {
+            return $"Break";
         }
     }
 }
