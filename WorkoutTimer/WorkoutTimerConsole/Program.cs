@@ -77,7 +77,7 @@ namespace WorkoutTimerConsole
         {
             using (OpenFileDialog openFileDialog = new OpenFileDialog())
             {
-                openFileDialog.InitialDirectory = "c:\\";
+                openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
                 openFileDialog.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
                 openFileDialog.FilterIndex = 2;
                 openFileDialog.RestoreDirectory = true;
