@@ -6,8 +6,7 @@ namespace WorkoutTimerConsole
     {
         public void Run()
         {
-            Console.WriteLine("Press enter to continue.");
-            Console.ReadLine();
+            ConsoleHelper.PressAnyKeyToContinue();
         }
 
         public override string ToString()

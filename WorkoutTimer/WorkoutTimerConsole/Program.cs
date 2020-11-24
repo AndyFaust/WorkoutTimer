@@ -19,12 +19,17 @@ namespace WorkoutTimerConsole
 
                 var commands = GetCommands(script).ToList();
 
-                Console.WriteLine("Press any key to start.");
-                Console.ReadKey();
+                Console.WriteLine("Script");
+                Console.WriteLine("------");
+                ConsoleHelper.PrintItems(commands);
+                Console.WriteLine();
+                ConsoleHelper.PressAnyKeyToContinue();
+                ConsoleHelper.WriteColumns("Now", "Next");
+                ConsoleHelper.WriteColumns("---", "----");
 
                 RunCommands(commands);
 
-                Console.WriteLine("Finished");
+                Console.WriteLine("End");
             }
             catch (AggregateException ae)
             {
@@ -76,12 +81,12 @@ namespace WorkoutTimerConsole
 
         static void RunCommands(IEnumerable<ICommand> commands)
         {
-            var commandsList = commands.ToList();
-            for (int i = 0; i < commandsList.Count; i++)
+            var queue = new Queue<ICommand>(commands);
+            while (queue.Count > 0)
             {
-                var command = commandsList[i];
-                var nextCommand = i < commandsList.Count - 1 ? commandsList[i + 1].ToString() : "End";
-                Console.WriteLine($"{command} [Next: {nextCommand}]");
+                var command = queue.Dequeue();
+                var nextCommand = queue.Count > 0 ? queue.Peek() : new NullCommand();
+                ConsoleHelper.WriteColumns(command.ToString(), nextCommand.ToString());
                 command.Run();
             }
         }

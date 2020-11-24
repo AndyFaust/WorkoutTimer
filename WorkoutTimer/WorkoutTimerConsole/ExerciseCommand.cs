@@ -45,15 +45,16 @@ namespace WorkoutTimerConsole
             var remaining = time.TotalSeconds;
             while(remaining > 0)
             {
-                Console.WriteLine($"{remaining}");
+                ConsoleHelper.WriteAndResetCursor(remaining.ToString());
                 Thread.Sleep(1000);
+                ConsoleHelper.WriteAndResetCursor(new string(' ', remaining.ToString().Length));
                 remaining--;
             }
         }
 
         public override string ToString()
         {
-            return $"{name} {time.TotalSeconds}s";
+            return $"{name} ({time.TotalSeconds}s)";
         }
     }
 }

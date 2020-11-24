@@ -51,10 +51,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BreakCommand.cs" />
+    <Compile Include="ConsoleHelper.cs" />
     <Compile Include="ExerciseCommand.cs" />
     <Compile Include="ICommand.cs" />
     <Compile Include="ISound.cs" />
     <Compile Include="NaudioSound.cs" />
+    <Compile Include="NullCommand.cs" />
     <Compile Include="NullSound.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
