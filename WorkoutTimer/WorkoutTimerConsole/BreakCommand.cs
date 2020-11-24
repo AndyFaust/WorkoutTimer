@@ -6,12 +6,8 @@ namespace WorkoutTimerConsole
     {
         public void Run()
         {
-            Console.WriteLine("Break. Press space to continue.");
-            var key = Console.ReadKey();
-            while (!string.IsNullOrWhiteSpace(key.ToString()))
-            {
-                key = Console.ReadKey();
-            }
+            Console.WriteLine("Break. Press enter to continue.");
+            Console.ReadLine();
         }
     }
 }
