@@ -5,19 +5,70 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WorkoutTimer.WPF"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="900"
+        Background="Honeydew">
     <Window.DataContext>
         <local:MainWindowViewModel/>
     </Window.DataContext>
-    
-    <Grid>
-        <TextBlock HorizontalAlignment="Left" Height="50" Margin="64,61,0,0" TextWrapping="Wrap" Text="{Binding NowCommand}" VerticalAlignment="Top" Width="238"/>
-        <TextBlock HorizontalAlignment="Left" Height="50" Margin="448,61,0,0" TextWrapping="Wrap" Text="{Binding NextCommand}" VerticalAlignment="Top" Width="238"/>
-        <TextBlock HorizontalAlignment="Left" Height="50" Margin="272,242,0,0" TextWrapping="Wrap" Text="{Binding Seconds}" VerticalAlignment="Top" Width="238"/>
-        <TextBlock HorizontalAlignment="Left" Height="50" Margin="54,351,0,0" TextWrapping="Wrap" Text="{Binding ScriptPath}" VerticalAlignment="Top" Width="238"/>
-        <ListBox HorizontalAlignment="Left" Height="359" Margin="592,33,0,0" VerticalAlignment="Top" Width="167" ItemsSource="{Binding Commands}"/>
-        <Button Content="Button" HorizontalAlignment="Left" Margin="254,330,0,0" VerticalAlignment="Top" Width="75" Command="{Binding StartCommand}"/>
-        <Button Content="Load" HorizontalAlignment="Left" Margin="107,330,0,0" VerticalAlignment="Top" Width="75" Command="{Binding ReadScriptCommand}"/>
 
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions>
+        
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="150"/>
+                <ColumnDefinition Width="20"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0" Content="Load script" Command="{Binding LoadScriptCommand}" />
+            <Border Grid.Column="2" BorderBrush="Gray" BorderThickness="1" Background="White">
+                <TextBlock Margin="3" VerticalAlignment="Center" Text="{Binding ScriptPath}"/>
+            </Border>
+        </Grid>
+
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="150"/>
+                <ColumnDefinition Width="20"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Border Grid.Column="0" BorderBrush="Gray" BorderThickness="1" Background="White">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <ItemsControl Margin="3" ItemsSource="{Binding Commands}" Focusable="False"/>
+                </ScrollViewer>
+            </Border>
+            <Grid Grid.Column="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Border Grid.Row="0" Background="ForestGreen">
+                    <TextBlock VerticalAlignment="Center" FontSize="50" Text="{Binding NowCommand}" Margin="5"/>
+                </Border>
+                <Border Grid.Row="1" Background="LightGreen">
+                    <TextBlock  FontSize="120" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding Seconds}" />
+                </Border>
+                <Border Grid.Row="2" Background="gray">
+                    <TextBlock VerticalAlignment="Center" FontSize="20" Text="{Binding NextCommand}" Margin="5"/>
+                </Border>
+            </Grid>
+        </Grid>
+
+        <Grid Grid.Row="4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="20"/>
+                <ColumnDefinition Width="150"/>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="2" Content="Start" Command="{Binding StartCommand}" />
+        </Grid>
+        
     </Grid>
 </Window>

@@ -17,12 +17,11 @@ namespace WorkoutTimer.WPF
         private readonly WorkoutTimerLogic workoutTimer;
         private IEnumerable<IWorkoutCommand> script;
 
-        public ICommand ReadScriptCommand { get; set; }
-        public bool CanReadScript { get; set; }
+        public ICommand LoadScriptCommand { get; set; }
+        public bool CanLoadScript { get; set; }
 
         public ICommand StartCommand { get; set; }
         public bool CanStart { get; set; }
-
 
         public string NowCommand { get; set; }
         public string NextCommand { get; set; }
@@ -33,25 +32,23 @@ namespace WorkoutTimer.WPF
 
         public MainWindowViewModel()
         {
-            NowCommand = "Now";
-            NextCommand = "Next";
-            CanReadScript = true;
+            CanLoadScript = true;
 
             workoutTimer = new WorkoutTimerLogic(this);
 
-            ReadScriptCommand = new RelayCommand(_ => {
+            LoadScriptCommand = new RelayCommand(_ => {
                 var scriptPath = GetScriptFilePath();
                 ScriptPath = scriptPath;
                 script = workoutTimer.ReadScript(scriptPath);
                 Commands = new ObservableCollection<string>(script.Select(c => c.ToString()));
                 CanStart = true;
-            }, _ => CanReadScript);
+            }, _ => CanLoadScript);
 
             StartCommand = new RelayCommand(async _ => {
-                CanReadScript = false;
+                CanLoadScript = false;
                 CanStart = false;
                 await workoutTimer.RunCommands(script);
-                CanReadScript = true;
+                CanLoadScript = true;
                 CanStart = true;
             }, _ => CanStart);
         }
