@@ -50,17 +50,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BreakCommand.cs" />
+    <Compile Include="Commands\BreakCommand.cs" />
     <Compile Include="ConsoleHelper.cs" />
-    <Compile Include="ExerciseCommand.cs" />
-    <Compile Include="ICommand.cs" />
-    <Compile Include="ISound.cs" />
-    <Compile Include="NaudioSound.cs" />
-    <Compile Include="NullCommand.cs" />
-    <Compile Include="NullSound.cs" />
+    <Compile Include="Commands\ExerciseCommand.cs" />
+    <Compile Include="Commands\ICommand.cs" />
+    <Compile Include="Sounds\ISound.cs" />
+    <Compile Include="Sounds\NaudioSound.cs" />
+    <Compile Include="Commands\NullCommand.cs" />
+    <Compile Include="Sounds\NullSound.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SampleSound.cs" />
+    <Compile Include="Sounds\SampleSound.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

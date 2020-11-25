@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace WorkoutTimerConsole
+namespace WorkoutTimerConsole.Commands
 {
     class BreakCommand : ICommand
     {

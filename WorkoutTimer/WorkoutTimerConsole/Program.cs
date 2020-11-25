@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using System.IO;
 using System.Linq;
+using WorkoutTimerConsole.Commands;
+using WorkoutTimerConsole.Sounds;
 
 namespace WorkoutTimerConsole
 {

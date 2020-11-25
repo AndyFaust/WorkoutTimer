@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace WorkoutTimerConsole
+namespace WorkoutTimerConsole.Commands
 {
     interface ICommand
     {

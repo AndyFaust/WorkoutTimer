@@ -3,7 +3,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace WorkoutTimerConsole
+namespace WorkoutTimerConsole.Sounds
 {
     class NaudioSound : ISound
     {
@@ -12,7 +12,7 @@ namespace WorkoutTimerConsole
         public NaudioSound(string fileName)
         {
             this.fileName = fileName ?? throw new ArgumentNullException(nameof(fileName));
-            this.Duration = GetDuration(fileName);
+            Duration = GetDuration(fileName);
         }
 
         public TimeSpan Duration { get; }

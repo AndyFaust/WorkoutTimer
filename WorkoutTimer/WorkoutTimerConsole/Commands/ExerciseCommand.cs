@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using WorkoutTimerConsole.Sounds;
 
-namespace WorkoutTimerConsole
+namespace WorkoutTimerConsole.Commands
 {
     class ExerciseCommand : ICommand
     {
@@ -18,7 +19,7 @@ namespace WorkoutTimerConsole
             this.startingSound = startingSound ?? throw new ArgumentNullException(nameof(startingSound));
             this.endingSound = endingSound ?? throw new ArgumentNullException(nameof(endingSound));
 
-            if(time - startingSound.Duration - endingSound.Duration < TimeSpan.FromSeconds(0))
+            if (time - startingSound.Duration - endingSound.Duration < TimeSpan.FromSeconds(0))
                 throw new Exception($"Cannot create '{name}' command because there isn't enough time to play the audio.");
         }
 
@@ -43,7 +44,7 @@ namespace WorkoutTimerConsole
         private void PrintTimer(TimeSpan time)
         {
             var remaining = time.TotalSeconds;
-            while(remaining > 0)
+            while (remaining > 0)
             {
                 ConsoleHelper.WriteAndResetCursor(remaining.ToString());
                 Thread.Sleep(1000);

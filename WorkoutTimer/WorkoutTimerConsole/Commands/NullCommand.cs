@@ -1,4 +1,4 @@
-﻿namespace WorkoutTimerConsole
+﻿namespace WorkoutTimerConsole.Commands
 {
     class NullCommand : ICommand
     {

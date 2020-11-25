@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace WorkoutTimerConsole
+namespace WorkoutTimerConsole.Sounds
 {
     class NullSound : ISound
     {
