@@ -12,42 +12,46 @@
     </Window.DataContext>
 
     <Grid Margin="20">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="40"/>
-            <RowDefinition Height="20"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="20"/>
-            <RowDefinition Height="40"/>
-        </Grid.RowDefinitions>
         
-        <Grid Grid.Row="0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="150"/>
-                <ColumnDefinition Width="20"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <Button Grid.Column="0" Content="Load script" Command="{Binding LoadScriptCommand}" />
-            <Border Grid.Column="2" BorderBrush="Gray" BorderThickness="1" Background="White">
-                <TextBlock Margin="3" VerticalAlignment="Center" Text="{Binding ScriptPath}"/>
-            </Border>
-        </Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="150"/>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
 
-        <Grid Grid.Row="2">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="150"/>
-                <ColumnDefinition Width="20"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <Border Grid.Column="0" BorderBrush="Gray" BorderThickness="1" Background="White">
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="40"/>
+            </Grid.RowDefinitions>
+            <Button Grid.Row="0" Content="Load script" Command="{Binding LoadScriptCommand}" />
+            <Border Grid.Row="2" BorderBrush="Gray" BorderThickness="1" Background="White">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <ItemsControl Margin="3" ItemsSource="{Binding Commands}" Focusable="False"/>
                 </ScrollViewer>
             </Border>
-            <Grid Grid.Column="2">
+            <Button Grid.Row="4" Content="Start" Command="{Binding StartCommand}" />
+        </Grid>
+        
+        <Grid Grid.Column="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Border Grid.Row="0" BorderBrush="Gray" BorderThickness="1" Background="White">
+                <TextBlock Margin="3" VerticalAlignment="Center" Text="{Binding ScriptPath}"/>
+            </Border>
+
+            <Grid Grid.Row="2">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
-                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="40"/>
                 </Grid.RowDefinitions>
                 <Border Grid.Row="0" Background="ForestGreen">
                     <TextBlock VerticalAlignment="Center" FontSize="50" Text="{Binding NowCommand}" Margin="5"/>
@@ -60,15 +64,6 @@
                 </Border>
             </Grid>
         </Grid>
-
-        <Grid Grid.Row="4">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="20"/>
-                <ColumnDefinition Width="150"/>
-            </Grid.ColumnDefinitions>
-            <Button Grid.Column="2" Content="Start" Command="{Binding StartCommand}" />
-        </Grid>
-        
+       
     </Grid>
 </Window>
