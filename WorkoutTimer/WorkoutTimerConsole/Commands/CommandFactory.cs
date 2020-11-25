@@ -22,7 +22,7 @@ namespace WorkoutTimerConsole.Commands
 
             foreach (var line in File.ReadLines(script.FullName))
             {
-                if (string.IsNullOrEmpty(line) || line[0] == '#')
+                if (string.IsNullOrEmpty(line) || line.Trim()[0] == '#')
                     continue;
 
                 var items = line.Split(',').Select(n => n.Trim()).ToList();
