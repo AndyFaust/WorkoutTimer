@@ -38,6 +38,7 @@ namespace WorkoutTimer.WPF
 
             LoadScriptCommand = new RelayCommand(_ => {
                 var scriptPath = GetScriptFilePath();
+                if (scriptPath == null) return;
                 ScriptPath = scriptPath;
                 script = workoutTimer.ReadScript(scriptPath);
                 Commands = new ObservableCollection<string>(script.Select(c => c.ToString()));
@@ -59,7 +60,7 @@ namespace WorkoutTimer.WPF
             if (openFileDialog.ShowDialog() == true)
                 return openFileDialog.FileName;
             else
-                throw new Exception("No file selected.");
+                return null;
         }
 
         public Task UpdateNowAndNext(IWorkoutCommand now, IWorkoutCommand next)
