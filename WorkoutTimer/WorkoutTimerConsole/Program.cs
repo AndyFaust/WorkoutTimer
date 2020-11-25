@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using WorkoutTimerConsole.Commands;
 using WorkoutTimerConsole.Sounds;
+using WorkoutTimerConsole.Consoles;
 
 namespace WorkoutTimerConsole
 {
@@ -13,42 +14,44 @@ namespace WorkoutTimerConsole
         [STAThread]
         static void Main(string[] args)
         {
+            var console = new ConsoleWrapper();
+
             try
             {
                 var scriptPath = GetFilePath();
                 if (scriptPath is null) return;
                 var script = new FileInfo(scriptPath);
 
-                var commands = GetCommands(script).ToList();
+                var commands = GetCommands(script, console).ToList();
 
-                Console.WriteLine("Script");
-                Console.WriteLine("------");
-                ConsoleHelper.PrintItems(commands);
-                Console.WriteLine();
-                ConsoleHelper.PressAnyKeyToContinue();
-                ConsoleHelper.WriteColumns("Now", "Next");
-                ConsoleHelper.WriteColumns("---", "----");
+                console.WriteLine("Script");
+                console.WriteLine("------");
+                console.PrintItems(commands);
+                console.WriteLine();
+                console.PressAnyKeyToContinue();
+                console.WriteColumns("Now", "Next");
+                console.WriteColumns("---", "----");
 
-                RunCommands(commands);
+                RunCommands(console, commands);
 
-                Console.WriteLine("End");
+                console.WriteLine("End");
             }
             catch (AggregateException ae)
             {
                 foreach (var e in ae.InnerExceptions)
                 {
-                    Console.WriteLine(e.Message);
+                    console.WriteLine(e.Message);
                 }
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
+                console.WriteLine(e.Message);
             }
 
-            Console.ReadLine();
+            console.ReadLine();
         }
 
-        private static IEnumerable<ICommand> GetCommands(FileInfo script)
+        private static IEnumerable<ICommand> GetCommands(FileInfo script, IConsole console)
         {
             foreach (var line in File.ReadLines(script.FullName))
             {
@@ -61,12 +64,13 @@ namespace WorkoutTimerConsole
                 switch (command.ToLower())
                 {
                     case "break":
-                        yield return new BreakCommand();
+                        yield return new BreakCommand(console);
                         break;
                     default:
                         if (items.Count < 2) 
                             throw new Exception($"Unable to interpret '{line}'.");
                         yield return new ExerciseCommand(
+                            console,
                             items[0],
                             TimeSpan.FromSeconds(Convert.ToInt32(items[1])),
                             items.Count < 3 || items[2] == "-" || string.IsNullOrWhiteSpace(items[2])
@@ -81,14 +85,14 @@ namespace WorkoutTimerConsole
             }
         }
 
-        static void RunCommands(IEnumerable<ICommand> commands)
+        static void RunCommands(IConsole console, IEnumerable<ICommand> commands)
         {
             var queue = new Queue<ICommand>(commands);
             while (queue.Count > 0)
             {
                 var command = queue.Dequeue();
                 var nextCommand = queue.Count > 0 ? queue.Peek() : new NullCommand();
-                ConsoleHelper.WriteColumns(command.ToString(), nextCommand.ToString());
+                console.WriteColumns(command.ToString(), nextCommand.ToString());
                 command.Run();
             }
         }

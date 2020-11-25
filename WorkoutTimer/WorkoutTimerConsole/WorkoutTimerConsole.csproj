@@ -51,7 +51,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\BreakCommand.cs" />
-    <Compile Include="ConsoleHelper.cs" />
+    <Compile Include="Consoles\ConsoleWrapper.cs" />
+    <Compile Include="Consoles\IConsole.cs" />
     <Compile Include="Commands\ExerciseCommand.cs" />
     <Compile Include="Commands\ICommand.cs" />
     <Compile Include="Sounds\ISound.cs" />

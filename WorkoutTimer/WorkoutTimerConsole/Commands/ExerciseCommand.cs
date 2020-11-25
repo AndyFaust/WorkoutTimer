@@ -1,19 +1,22 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using WorkoutTimerConsole.Consoles;
 using WorkoutTimerConsole.Sounds;
 
 namespace WorkoutTimerConsole.Commands
 {
     class ExerciseCommand : ICommand
     {
+        private readonly IConsole console;
         private readonly string name;
         private readonly TimeSpan time;
         private readonly ISound startingSound;
         private readonly ISound endingSound;
 
-        public ExerciseCommand(string name, TimeSpan time, ISound startingSound, ISound endingSound)
+        public ExerciseCommand(IConsole console, string name, TimeSpan time, ISound startingSound, ISound endingSound)
         {
+            this.console = console;
             this.name = name ?? throw new ArgumentNullException(nameof(name));
             this.time = time;
             this.startingSound = startingSound ?? throw new ArgumentNullException(nameof(startingSound));
@@ -46,9 +49,9 @@ namespace WorkoutTimerConsole.Commands
             var remaining = time.TotalSeconds;
             while (remaining > 0)
             {
-                ConsoleHelper.WriteAndResetCursor(remaining.ToString());
+                console.WriteAndResetCursor(remaining.ToString());
                 Thread.Sleep(1000);
-                ConsoleHelper.WriteAndResetCursor(new string(' ', remaining.ToString().Length));
+                console.WriteAndResetCursor(new string(' ', remaining.ToString().Length));
                 remaining--;
             }
         }

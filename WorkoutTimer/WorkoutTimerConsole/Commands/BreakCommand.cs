@@ -1,12 +1,20 @@
 ﻿using System;
+using WorkoutTimerConsole.Consoles;
 
 namespace WorkoutTimerConsole.Commands
 {
     class BreakCommand : ICommand
     {
+        private readonly IConsole console;
+
+        public BreakCommand(IConsole console)
+        {
+            this.console = console;
+        }
+
         public void Run()
         {
-            ConsoleHelper.PressAnyKeyToContinue();
+            this.console.PressAnyKeyToContinue();
         }
 
         public override string ToString()
