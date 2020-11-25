@@ -1,7 +1,8 @@
 ﻿using System;
-using WorkoutTimer.Shared;
+using System.Threading.Tasks;
+using WorkoutTimer.Shared.Interfaces;
 
-namespace WorkoutTimerConsole.Commands
+namespace WorkoutTimer.Shared.Commands
 {
     class BreakCommand : IWorkoutCommand
     {
@@ -12,9 +13,9 @@ namespace WorkoutTimerConsole.Commands
             this.gui = gui;
         }
 
-        public void Run()
+        public async Task RunAsync()
         {
-            this.gui.AskToContinue();
+            await gui.AskToContinue();
         }
 
         public override string ToString()

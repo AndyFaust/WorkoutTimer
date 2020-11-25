@@ -6,7 +6,18 @@
         xmlns:local="clr-namespace:WorkoutTimer.WPF"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
+    <Window.DataContext>
+        <local:MainWindowViewModel/>
+    </Window.DataContext>
+    
     <Grid>
-        
+        <TextBlock HorizontalAlignment="Left" Height="50" Margin="64,61,0,0" TextWrapping="Wrap" Text="{Binding NowCommand}" VerticalAlignment="Top" Width="238"/>
+        <TextBlock HorizontalAlignment="Left" Height="50" Margin="448,61,0,0" TextWrapping="Wrap" Text="{Binding NextCommand}" VerticalAlignment="Top" Width="238"/>
+        <TextBlock HorizontalAlignment="Left" Height="50" Margin="272,242,0,0" TextWrapping="Wrap" Text="{Binding Seconds}" VerticalAlignment="Top" Width="238"/>
+        <TextBlock HorizontalAlignment="Left" Height="50" Margin="54,351,0,0" TextWrapping="Wrap" Text="{Binding ScriptPath}" VerticalAlignment="Top" Width="238"/>
+        <ListBox HorizontalAlignment="Left" Height="359" Margin="592,33,0,0" VerticalAlignment="Top" Width="167" ItemsSource="{Binding Commands}"/>
+        <Button Content="Button" HorizontalAlignment="Left" Margin="254,330,0,0" VerticalAlignment="Top" Width="75" Command="{Binding StartCommand}"/>
+        <Button Content="Load" HorizontalAlignment="Left" Margin="107,330,0,0" VerticalAlignment="Top" Width="75" Command="{Binding ReadScriptCommand}"/>
+
     </Grid>
 </Window>

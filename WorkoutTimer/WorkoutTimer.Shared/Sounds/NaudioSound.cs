@@ -2,9 +2,9 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using WorkoutTimer.Shared;
+using WorkoutTimer.Shared.Interfaces;
 
-namespace WorkoutTimerConsole.Sounds
+namespace WorkoutTimer.Shared.Sounds
 {
     class NaudioSound : ISound
     {

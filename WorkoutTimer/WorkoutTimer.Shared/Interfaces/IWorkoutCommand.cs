@@ -1,9 +1,9 @@
 ﻿using System.Threading.Tasks;
 
-namespace WorkoutTimer.Shared
+namespace WorkoutTimer.Shared.Interfaces
 {
     public interface IWorkoutCommand
     {
-        void Run();
+        Task RunAsync();
     }
 }

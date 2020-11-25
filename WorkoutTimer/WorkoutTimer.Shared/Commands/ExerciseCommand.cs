@@ -1,22 +1,21 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using WorkoutTimer.Shared;
-using WorkoutTimerConsole.Sounds;
+using WorkoutTimer.Shared.Interfaces;
 
-namespace WorkoutTimerConsole.Commands
+namespace WorkoutTimer.Shared.Commands
 {
     class ExerciseCommand : IWorkoutCommand
     {
-        private readonly IGui console;
+        private readonly IGui gui;
         private readonly string name;
         private readonly TimeSpan time;
         private readonly ISound startingSound;
         private readonly ISound endingSound;
 
-        public ExerciseCommand(IGui console, string name, TimeSpan time, ISound startingSound, ISound endingSound)
+        public ExerciseCommand(IGui gui, string name, TimeSpan time, ISound startingSound, ISound endingSound)
         {
-            this.console = console;
+            this.gui = gui;
             this.name = name ?? throw new ArgumentNullException(nameof(name));
             this.time = time;
             this.startingSound = startingSound ?? throw new ArgumentNullException(nameof(startingSound));
@@ -26,32 +25,25 @@ namespace WorkoutTimerConsole.Commands
                 throw new Exception($"Cannot create '{name}' command because there isn't enough time to play the audio.");
         }
 
-        public void Run()
+        public async Task RunAsync()
         {
-            Task.WaitAll(RunAsync());
-        }
-
-        private async Task RunAsync()
-        {
-            _ = startingSound.PlayAsync();
-            _ = PrintTimerAsync(time);
+            var startSoundTask = startingSound.PlayAsync();
+            var timerTask = PrintTimerAsync(time);
             await Task.Delay(time - endingSound.Duration);
             await endingSound.PlayAsync();
+            await startSoundTask;
+            await timerTask;
         }
 
         private async Task PrintTimerAsync(TimeSpan time)
         {
-            await Task.Run(() => PrintTimer(time));
-        }
-
-        private void PrintTimer(TimeSpan time)
-        {
-            var remaining = (int) time.TotalSeconds;
+            var remaining = (int)time.TotalSeconds;
+            await gui.UpdateTimer(remaining);
             while (remaining > 0)
             {
-                console.UpdateTimer(remaining);
-                Thread.Sleep(1000);
+                await Task.Delay(1000);
                 remaining--;
+                await gui.UpdateTimer(remaining);
             }
         }
 
