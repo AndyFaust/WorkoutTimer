@@ -16,8 +16,10 @@ namespace WorkoutTimerConsole.Commands
             this.console = console;
         }
 
-        public IEnumerable<ICommand> GetCommands(FileInfo script)
+        public IEnumerable<ICommand> GetCommands(string scriptPath)
         {
+            var script = new FileInfo(scriptPath);
+
             foreach (var line in File.ReadLines(script.FullName))
             {
                 if (string.IsNullOrEmpty(line) || line[0] == '#')

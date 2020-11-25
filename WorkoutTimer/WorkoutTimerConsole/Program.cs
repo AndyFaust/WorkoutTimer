@@ -18,12 +18,10 @@ namespace WorkoutTimerConsole
 
             try
             {
-                var scriptPath = GetFilePath();
-                if (scriptPath is null) return;
-                var script = new FileInfo(scriptPath);
+                var scriptPath = PromptUserForFilePath();
 
                 var commandFactory = new CommandFactory(console);
-                var commands = commandFactory.GetCommands(script).ToList();
+                var commands = commandFactory.GetCommands(scriptPath).ToList();
 
                 console.WriteLine("Script");
                 console.WriteLine("------");
@@ -52,8 +50,6 @@ namespace WorkoutTimerConsole
             console.ReadLine();
         }
 
-
-
         static void RunCommands(IConsole console, IEnumerable<ICommand> commands)
         {
             var queue = new Queue<ICommand>(commands);
@@ -66,7 +62,7 @@ namespace WorkoutTimerConsole
             }
         }
 
-        static string GetFilePath()
+        static string PromptUserForFilePath()
         {
             using (OpenFileDialog openFileDialog = new OpenFileDialog())
             {
@@ -80,8 +76,10 @@ namespace WorkoutTimerConsole
                     //Get the path of specified file
                     return openFileDialog.FileName;
                 }
-
-                return null;
+                else
+                {
+                    throw new Exception("No file selected.");
+                }
             }
         }
     }

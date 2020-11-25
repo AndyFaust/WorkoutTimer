@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\BreakCommand.cs" />
+    <Compile Include="Commands\CommandFactory.cs" />
     <Compile Include="Consoles\ConsoleWrapper.cs" />
     <Compile Include="Consoles\IConsole.cs" />
     <Compile Include="Commands\ExerciseCommand.cs" />
