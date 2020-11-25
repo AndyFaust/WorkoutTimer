@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading;
 using System.Threading.Tasks;
 using WorkoutTimer.Shared.Interfaces;
 
@@ -49,7 +48,7 @@ namespace WorkoutTimer.Shared.Commands
 
         public override string ToString()
         {
-            return $"{name} ({time.TotalSeconds}s)";
+            return $"{time.TotalSeconds}s - {name}";
         }
     }
 }
