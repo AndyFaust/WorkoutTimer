@@ -42,10 +42,10 @@ namespace WorkoutTimerConsole.Commands
                             TimeSpan.FromSeconds(Convert.ToInt32(items[1])),
                             items.Count < 3 || items[2] == "-" || string.IsNullOrWhiteSpace(items[2])
                                 ? new NullSound()
-                                : (ISound)new NaudioSound(Path.Combine(script.DirectoryName, items[2])),
+                                : (ISound) new NaudioSound(Path.Combine(script.DirectoryName, items[2])),
                             items.Count < 4 || items[3] == "-" || string.IsNullOrWhiteSpace(items[3])
                                 ? new NullSound()
-                                : (ISound)new NaudioSound(Path.Combine(script.DirectoryName, items[3]))
+                                : (ISound) new NaudioSound(Path.Combine(script.DirectoryName, items[3]))
                         );
                         break;
                 }
