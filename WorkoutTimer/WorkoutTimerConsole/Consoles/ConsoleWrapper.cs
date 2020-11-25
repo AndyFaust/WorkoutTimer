@@ -5,7 +5,7 @@ namespace WorkoutTimerConsole.Consoles
 {
     class ConsoleWrapper : IConsole
     {
-        private int WindowWidth => Console.WindowWidth;
+        private int WindowWidth => Console.WindowWidth - 4;
 
         public void WriteLine()
         {
