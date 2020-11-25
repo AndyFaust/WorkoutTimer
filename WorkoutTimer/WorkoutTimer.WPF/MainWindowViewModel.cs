@@ -39,8 +39,8 @@ namespace WorkoutTimer.WPF
             LoadScriptCommand = new RelayCommand(_ => {
                 var scriptPath = GetScriptFilePath();
                 if (scriptPath == null) return;
-                ScriptPath = scriptPath;
                 script = workoutTimer.ReadScript(scriptPath);
+                ScriptPath = scriptPath;
                 Commands = new ObservableCollection<string>(script.Select(c => c.ToString()));
                 CanStart = true;
             }, _ => CanLoadScript);
