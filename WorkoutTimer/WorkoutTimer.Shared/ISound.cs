@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace WorkoutTimerConsole.Sounds
+namespace WorkoutTimer.Shared
 {
-    interface ISound
+    public interface ISound
     {
         TimeSpan Duration { get; }
         Task PlayAsync();

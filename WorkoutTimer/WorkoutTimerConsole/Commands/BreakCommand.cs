@@ -1,20 +1,20 @@
 ﻿using System;
-using WorkoutTimerConsole.Consoles;
+using WorkoutTimer.Shared;
 
 namespace WorkoutTimerConsole.Commands
 {
-    class BreakCommand : ICommand
+    class BreakCommand : IWorkoutCommand
     {
-        private readonly IConsole console;
+        private readonly IGui gui;
 
-        public BreakCommand(IConsole console)
+        public BreakCommand(IGui gui)
         {
-            this.console = console;
+            this.gui = gui;
         }
 
         public void Run()
         {
-            this.console.PressAnyKeyToContinue();
+            this.gui.AskToContinue();
         }
 
         public override string ToString()

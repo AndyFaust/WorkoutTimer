@@ -1,34 +1,33 @@
 ﻿using System;
 using System.Collections.Generic;
+using WorkoutTimer.Shared;
 
 namespace WorkoutTimerConsole.Consoles
 {
-    class ConsoleWrapper : IConsole
+    class ConsoleGui : IGui
     {
         private int WindowWidth => Console.WindowWidth - 4;
 
-        public void WriteLine()
-        {
-            Console.WriteLine();
-        }
-
-        public void WriteLine(string message)
-        {
-            Console.WriteLine(message);
-        }
-
-        public void PressAnyKeyToContinue()
+        public void AskToContinue()
         {
             Console.Write("Press any key to continue.");
             Console.ReadKey();
             ClearLine();
         }
 
-        public void PrintItems<T>(IEnumerable<T> items)
+        public void DisplayScript(IEnumerable<IWorkoutCommand> commands)
+        {
+            Console.WriteLine("Script");
+            Console.WriteLine("------");
+            PrintItems(commands);
+            Console.WriteLine();
+        }
+
+        private void PrintItems<T>(IEnumerable<T> items)
         {
             foreach (var item in items)
             {
-                WriteLine(item.ToString());
+                Console.WriteLine(item.ToString());
             }
         }
 
@@ -40,7 +39,12 @@ namespace WorkoutTimerConsole.Consoles
             Console.SetCursorPosition(0, currentLineCursor);
         }
 
-        public void WriteColumns(params string[] entries)
+        public void UpdateNowAndNext(IWorkoutCommand now, IWorkoutCommand next)
+        {
+            WriteColumns($"Now: {now}", $"Next: {next}");
+        }
+
+        private void WriteColumns(params string[] entries)
         {
             var columnWidth = WindowWidth / entries.Length;
             var message = "";
@@ -51,17 +55,18 @@ namespace WorkoutTimerConsole.Consoles
                 else
                     message += entry.Substring(0, columnWidth);
             }
-            WriteLine(message);
+            Console.WriteLine(message);
         }
 
-        public void WriteAndResetCursor(string message)
+        public void DisplayException(Exception e)
         {
-            Console.Write(message + new string('\b', message.Length));
+            Console.WriteLine(e.Message);
         }
 
-        public string ReadLine()
+        public void UpdateTimer(int seconds)
         {
-            return Console.ReadLine();
+            var secondsStr = seconds.ToString() + new string(' ', 10);
+            Console.Write(secondsStr + new string('\b', secondsStr.Length));
         }
     }
 }

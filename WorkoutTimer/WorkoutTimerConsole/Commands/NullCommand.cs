@@ -1,6 +1,8 @@
-﻿namespace WorkoutTimerConsole.Commands
+﻿using WorkoutTimer.Shared;
+
+namespace WorkoutTimerConsole.Commands
 {
-    class NullCommand : ICommand
+    class NullCommand : IWorkoutCommand
     {
         public void Run()
         {

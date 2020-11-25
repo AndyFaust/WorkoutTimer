@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
 
-namespace WorkoutTimerConsole.Commands
+namespace WorkoutTimer.Shared
 {
-    interface ICommand
+    public interface IWorkoutCommand
     {
         void Run();
     }

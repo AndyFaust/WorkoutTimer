@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using System.Linq;
 using WorkoutTimerConsole.Commands;
 using WorkoutTimerConsole.Consoles;
+using WorkoutTimer.Shared;
 
 namespace WorkoutTimerConsole
 {
@@ -12,7 +13,7 @@ namespace WorkoutTimerConsole
         [STAThread]
         static void Main(string[] args)
         {
-            var console = new ConsoleWrapper();
+            var console = new ConsoleGui();
 
             try
             {
@@ -21,41 +22,36 @@ namespace WorkoutTimerConsole
                 var commandFactory = new CommandFactory(console);
                 var commands = commandFactory.GetCommands(scriptPath).ToList();
 
-                console.WriteLine("Script");
-                console.WriteLine("------");
-                console.PrintItems(commands);
-                console.WriteLine();
-                console.PressAnyKeyToContinue();
-                console.WriteColumns("Now", "Next");
-                console.WriteColumns("---", "----");
+                console.DisplayScript(commands);
+
+                console.AskToContinue();
 
                 RunCommands(console, commands);
-
-                console.WriteLine("End");
             }
             catch (AggregateException ae)
             {
                 foreach (var e in ae.InnerExceptions)
                 {
-                    console.WriteLine(e.Message);
+
+                    console.DisplayException(e);
                 }
             }
             catch (Exception e)
             {
-                console.WriteLine(e.Message);
+                console.DisplayException(e);
             }
 
-            console.ReadLine();
+            Console.ReadLine();
         }
 
-        static void RunCommands(IConsole console, IEnumerable<ICommand> commands)
+        static void RunCommands(IGui gui, IEnumerable<IWorkoutCommand> commands)
         {
-            var queue = new Queue<ICommand>(commands);
+            var queue = new Queue<IWorkoutCommand>(commands);
             while (queue.Count > 0)
             {
                 var command = queue.Dequeue();
                 var nextCommand = queue.Count > 0 ? queue.Peek() : new NullCommand();
-                console.WriteColumns(command.ToString(), nextCommand.ToString());
+                gui.UpdateNowAndNext(command, nextCommand);
                 command.Run();
             }
         }

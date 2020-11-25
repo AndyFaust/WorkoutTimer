@@ -52,11 +52,8 @@
   <ItemGroup>
     <Compile Include="Commands\BreakCommand.cs" />
     <Compile Include="Commands\CommandFactory.cs" />
-    <Compile Include="Consoles\ConsoleWrapper.cs" />
-    <Compile Include="Consoles\IConsole.cs" />
+    <Compile Include="Consoles\ConsoleGui.cs" />
     <Compile Include="Commands\ExerciseCommand.cs" />
-    <Compile Include="Commands\ICommand.cs" />
-    <Compile Include="Sounds\ISound.cs" />
     <Compile Include="Sounds\NaudioSound.cs" />
     <Compile Include="Commands\NullCommand.cs" />
     <Compile Include="Sounds\NullSound.cs" />
@@ -70,6 +67,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ExerciseIcon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\WorkoutTimer.Shared\WorkoutTimer.Shared.csproj">
+      <Project>{4ba43b50-7c10-445f-a50d-8ecd0df07e9a}</Project>
+      <Name>WorkoutTimer.Shared</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

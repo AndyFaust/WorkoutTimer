@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using WorkoutTimer.Shared;
 
 namespace WorkoutTimerConsole.Sounds
 {

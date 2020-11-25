@@ -2,21 +2,21 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using WorkoutTimerConsole.Consoles;
+using WorkoutTimer.Shared;
 using WorkoutTimerConsole.Sounds;
 
 namespace WorkoutTimerConsole.Commands
 {
     class CommandFactory
     {
-        private readonly IConsole console;
+        private readonly IGui gui;
 
-        public CommandFactory(IConsole console)
+        public CommandFactory(IGui gui)
         {
-            this.console = console;
+            this.gui = gui;
         }
 
-        public IEnumerable<ICommand> GetCommands(string scriptPath)
+        public IEnumerable<IWorkoutCommand> GetCommands(string scriptPath)
         {
             var script = new FileInfo(scriptPath);
 
@@ -31,13 +31,13 @@ namespace WorkoutTimerConsole.Commands
                 switch (command.ToLower())
                 {
                     case "break":
-                        yield return new BreakCommand(console);
+                        yield return new BreakCommand(gui);
                         break;
                     default:
                         if (items.Count < 2)
                             throw new Exception($"Unable to interpret '{line}'.");
                         yield return new ExerciseCommand(
-                            console,
+                            gui,
                             items[0],
                             TimeSpan.FromSeconds(Convert.ToInt32(items[1])),
                             items.Count < 3 || items[2] == "-" || string.IsNullOrWhiteSpace(items[2])

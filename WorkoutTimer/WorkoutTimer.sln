@@ -5,6 +5,10 @@ VisualStudioVersion = 16.0.30503.244
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkoutTimerConsole", "WorkoutTimerConsole\WorkoutTimerConsole.csproj", "{3CF521C4-12AA-4A4F-A02E-064C8680E035}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkoutTimer.Shared", "WorkoutTimer.Shared\WorkoutTimer.Shared.csproj", "{4BA43B50-7C10-445F-A50D-8ECD0DF07E9A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkoutTimer.WPF", "WorkoutTimer.WPF\WorkoutTimer.WPF.csproj", "{60892175-96F1-4991-887A-CABEE9759872}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{3CF521C4-12AA-4A4F-A02E-064C8680E035}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3CF521C4-12AA-4A4F-A02E-064C8680E035}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3CF521C4-12AA-4A4F-A02E-064C8680E035}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4BA43B50-7C10-445F-A50D-8ECD0DF07E9A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4BA43B50-7C10-445F-A50D-8ECD0DF07E9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4BA43B50-7C10-445F-A50D-8ECD0DF07E9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4BA43B50-7C10-445F-A50D-8ECD0DF07E9A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{60892175-96F1-4991-887A-CABEE9759872}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{60892175-96F1-4991-887A-CABEE9759872}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{60892175-96F1-4991-887A-CABEE9759872}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{60892175-96F1-4991-887A-CABEE9759872}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
