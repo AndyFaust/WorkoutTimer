@@ -13,6 +13,9 @@ namespace WorkoutTimer.Shared.Sounds
         public NaudioSound(string fileName)
         {
             this.fileName = fileName ?? throw new ArgumentNullException(nameof(fileName));
+            var file = new System.IO.FileInfo(fileName);
+            if (file.Exists == false)
+                throw new Exception($"Unable to find file '{fileName}'.");
             Duration = GetDuration(fileName);
         }
 
