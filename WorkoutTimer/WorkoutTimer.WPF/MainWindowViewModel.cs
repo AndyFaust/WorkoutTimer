@@ -56,7 +56,11 @@ namespace WorkoutTimer.WPF
 
         public string GetScriptFilePath()
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
+            var openFileDialog = new OpenFileDialog
+            {
+                Filter = "Scripts|*.txt;*.csv"
+            };
+
             if (openFileDialog.ShowDialog() == true)
                 return openFileDialog.FileName;
             else
