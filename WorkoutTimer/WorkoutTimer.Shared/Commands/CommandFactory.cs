@@ -2,54 +2,109 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using WorkoutTimer.Shared.Interfaces;
 using WorkoutTimer.Shared.Sounds;
 
 namespace WorkoutTimer.Shared.Commands
 {
-    class CommandFactory
+    internal class CommandFactory
     {
         private readonly IGui gui;
+        private readonly IFileRepository fileRepo;
+        private readonly Regex startSetRegex = new Regex(@"(\d+).*?{");
+        private readonly Regex endSetRegex = new Regex(@"}.*");
 
-        public CommandFactory(IGui gui)
+
+        public CommandFactory(IGui gui, IFileRepository fileRepo)
         {
-            this.gui = gui;
+            this.gui = gui ?? throw new ArgumentNullException(nameof(gui));
+            this.fileRepo = fileRepo ?? throw new ArgumentNullException(nameof(fileRepo));
         }
 
         public IEnumerable<IWorkoutCommand> GetCommands(string scriptPath)
         {
-            var script = new FileInfo(scriptPath);
+            var scriptFile = fileRepo.GetFile(scriptPath);
+            return GetCommands(scriptFile);
+        }
 
-            foreach (var line in File.ReadLines(script.FullName))
+        public IEnumerable<IWorkoutCommand> GetCommands(IFile script)
+        {
+            var numberOfSets = 1;
+            var set = new List<IWorkoutCommand>();
+
+            foreach (var line in script.ReadLines())
             {
                 if (string.IsNullOrEmpty(line) || line.Trim()[0] == '#')
                     continue;
 
-                var items = line.Split(',').Select(n => n.Trim()).ToList();
-
-                var command = items[0];
-                switch (command.ToLower())
+                if (startSetRegex.IsMatch(line))
                 {
-                    case "break":
-                        yield return new BreakCommand(gui);
-                        break;
-                    default:
-                        if (items.Count < 2)
-                            throw new Exception($"Unable to interpret '{line}'.");
-                        yield return new ExerciseCommand(
-                            gui,
-                            items[0],
-                            TimeSpan.FromSeconds(Convert.ToInt32(items[1])),
-                            items.Count < 3 || items[2] == "-" || string.IsNullOrWhiteSpace(items[2])
-                                ? new NullSound()
-                                : (ISound)new NaudioSound(Path.Combine(script.DirectoryName, items[2])),
-                            items.Count < 4 || items[3] == "-" || string.IsNullOrWhiteSpace(items[3])
-                                ? new NullSound()
-                                : (ISound)new NaudioSound(Path.Combine(script.DirectoryName, items[3]))
-                        );
-                        break;
+                    numberOfSets = int.Parse(startSetRegex.Match(line).Groups[1].Value);
+                    continue;
                 }
+
+                if (endSetRegex.IsMatch(line))
+                {
+                    for (int i = 0; i < numberOfSets - 1; i++)
+                    {
+                        foreach (var command in set)
+                        {
+                            yield return command;
+                        }
+                    }
+                    numberOfSets = 1;
+                    set.Clear();
+                    continue;
+                }
+
+                var workoutCommand = GetCommand(line, script.Directory);
+
+                set.Add(workoutCommand);
+                yield return workoutCommand;
             }
+        }
+
+        private IWorkoutCommand GetCommand(string line, string scriptDirectory)
+        {
+            var items = line.Split(',').Select(n => n.Trim()).ToList();
+
+            IWorkoutCommand command;
+            switch (items[0].ToLower())
+            {
+                case "break":
+                    command = new BreakCommand(gui);
+                    break;
+                default:
+                    if (items.Count < 2)
+                        throw new Exception($"Unable to interpret '{line}'.");
+
+                    var commandName = items[0];
+
+                    var exerciseDuration = TimeSpan.FromSeconds(Convert.ToInt32(items[1]));
+
+                    ISound startSound = new NullSound();
+                    if (items.Count >= 3 && items[2] != "-" && !string.IsNullOrWhiteSpace(items[2]))
+                    {
+                        var path = Path.Combine(scriptDirectory, items[2]);
+                        var file = fileRepo.GetFile(path);
+                        startSound = new NaudioSound(file);
+                    }
+
+                    ISound endSound = new NullSound();
+                    if (items.Count >= 4 && items[3] != "-" && !string.IsNullOrWhiteSpace(items[3]))
+                    {
+                        var path = Path.Combine(scriptDirectory, items[3]);
+                        var file = fileRepo.GetFile(path);
+                        endSound = new NaudioSound(file);
+                    }
+
+                    command = new ExerciseCommand(gui, commandName, exerciseDuration, startSound, endSound);
+
+                    break;
+            }
+
+            return command;
         }
     }
 }
