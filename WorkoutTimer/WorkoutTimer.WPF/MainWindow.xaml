@@ -51,7 +51,7 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
-                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 <Border Grid.Row="0" Background="ForestGreen">
                     <TextBlock VerticalAlignment="Center" FontSize="50" Text="{Binding NowCommand}" Margin="5"/>
@@ -59,8 +59,8 @@
                 <Border Grid.Row="1" Background="LightGreen">
                     <TextBlock  FontSize="120" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding Seconds}" />
                 </Border>
-                <Border Grid.Row="2" Background="gray">
-                    <TextBlock VerticalAlignment="Center" FontSize="20" Text="{Binding NextCommand}" Margin="5"/>
+                <Border Grid.Row="2" Background="LightGray">
+                    <TextBlock VerticalAlignment="Center" FontSize="32" Text="{Binding NextCommand}" Margin="5"/>
                 </Border>
             </Grid>
         </Grid>
