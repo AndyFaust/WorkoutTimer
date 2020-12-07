@@ -12,14 +12,16 @@ namespace WorkoutTimer.Shared.Commands
     {
         private readonly IGui gui;
         private readonly IFileRepository fileRepo;
+        private readonly ISoundFactory soundFactory;
         private readonly Regex startSetRegex = new Regex(@"(\d+).*?{");
         private readonly Regex endSetRegex = new Regex(@"}.*");
 
 
-        public CommandFactory(IGui gui, IFileRepository fileRepo)
+        public CommandFactory(IGui gui, IFileRepository fileRepo, ISoundFactory soundFactory)
         {
             this.gui = gui ?? throw new ArgumentNullException(nameof(gui));
             this.fileRepo = fileRepo ?? throw new ArgumentNullException(nameof(fileRepo));
+            this.soundFactory = soundFactory ?? throw new ArgumentNullException(nameof(soundFactory));
         }
 
         public IEnumerable<IWorkoutCommand> GetCommands(string scriptPath)
@@ -88,7 +90,7 @@ namespace WorkoutTimer.Shared.Commands
                     {
                         var path = Path.Combine(scriptDirectory, items[2]);
                         var file = fileRepo.GetFile(path);
-                        startSound = new NaudioSound(file);
+                        startSound = soundFactory.GetSoundFromFile(file);
                     }
 
                     ISound endSound = new NullSound();
@@ -96,7 +98,7 @@ namespace WorkoutTimer.Shared.Commands
                     {
                         var path = Path.Combine(scriptDirectory, items[3]);
                         var file = fileRepo.GetFile(path);
-                        endSound = new NaudioSound(file);
+                        endSound = soundFactory.GetSoundFromFile(file);
                     }
 
                     command = new ExerciseCommand(gui, commandName, exerciseDuration, startSound, endSound);

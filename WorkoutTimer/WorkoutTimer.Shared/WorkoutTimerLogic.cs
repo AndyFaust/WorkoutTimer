@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using WorkoutTimer.Shared.Interfaces;
 using WorkoutTimer.Shared.Commands;
 using System.Threading.Tasks;
 using System.Runtime.CompilerServices;
 using WorkoutTimer.Shared.FileHelpers;
+using WorkoutTimer.Shared.Sounds;
 
 [assembly: InternalsVisibleTo("WorkoutTimer.Tests")]
 
@@ -14,17 +14,18 @@ namespace WorkoutTimer.Shared
     public class WorkoutTimerLogic
     {
         private readonly IGui gui;
-        private readonly IFileRepository fileRepository;
 
-        public WorkoutTimerLogic(IGui gui, IFileRepository fileRepository = null)
+        public WorkoutTimerLogic(IGui gui)
         {
             this.gui = gui;
-            this.fileRepository = fileRepository ?? new FileRepository();
         }
 
         public IEnumerable<IWorkoutCommand> ReadScript(string path)
         {
-            var commandFactory = new CommandFactory(gui, fileRepository);
+            var fileRepository = new FileRepository();
+            var soundFactory = new SoundFactory();
+            var commandFactory = new CommandFactory(gui, fileRepository, soundFactory);
+
             return commandFactory.GetCommands(path).ToList();
         }
 
