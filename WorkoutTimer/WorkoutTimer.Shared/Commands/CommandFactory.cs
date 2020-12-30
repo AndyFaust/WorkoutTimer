@@ -60,10 +60,17 @@ namespace WorkoutTimer.Shared.Commands
                     continue;
                 }
 
-                var workoutCommand = GetCommand(line, script.Directory);
+                IWorkoutCommand workoutCommand;
+                try
+                {
+                    workoutCommand = GetCommand(line, script.Directory);
+                }
+                catch (Exception e)
+                {
+                    throw new Exception($"Unable to create command from line '{line}' due to exception '{e.Message}'.", e);
+                }
 
                 set.Add(workoutCommand);
-                yield return workoutCommand;
             }
         }
 

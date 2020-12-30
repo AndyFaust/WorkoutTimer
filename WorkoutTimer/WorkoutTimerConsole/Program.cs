@@ -22,7 +22,7 @@ namespace WorkoutTimerConsole
 
                 gui.AskToContinue();
 
-                workoutTimer.RunCommands(commands);
+                workoutTimer.RunCommands(commands).Wait();
             }
             catch (AggregateException ae)
             {
