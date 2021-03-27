@@ -71,6 +71,8 @@ namespace WorkoutTimer.Shared.Commands
                 }
 
                 set.Add(workoutCommand);
+
+                yield return workoutCommand;
             }
         }
 
